@@ -7,6 +7,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: (order) => ({
         url: ORDERS_URL,
         method: "POST",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: order,
       }),
     }),
@@ -14,6 +17,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     getOrderDetails: builder.query({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
     }),
 
@@ -21,6 +27,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: ({ orderId, details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: details,
       }),
     }),
@@ -28,12 +37,18 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     getPaypalClientId: builder.query({
       query: () => ({
         url: PAYPAL_URL,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
     }),
 
     getMyOrders: builder.query({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
       keepUnusedDataFor: 5,
     }),
@@ -41,6 +56,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     getOrders: builder.query({
       query: () => ({
         url: ORDERS_URL,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
     }),
 
@@ -48,6 +66,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: "PUT",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
     }),
 

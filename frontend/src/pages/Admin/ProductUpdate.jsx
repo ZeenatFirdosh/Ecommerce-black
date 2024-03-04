@@ -55,17 +55,42 @@ const AdminProductUpdate = () => {
   }, [productData]);
 
   const uploadFileHandler = async (e) => {
+    let Url = null;
     const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    formData.append("file", e.target.files[0]);
+    formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET)
+    formData.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME)
+    console.log(import.meta.env.VITE_CLOUDINARY_CLOUD_NAME, "env");
+    console.log(formData, "formData");
     try {
-      const res = await uploadProductImage(formData).unwrap();
+      // const res = await uploadProductImage(formData).unwrap();
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => {
+          Url = data.url;
+          // setImageUrl(data.url);
+          setImage(data.url);
+          console.log(data.url, "data.url");
+          console.log(Url, "Url");
+          return Url;
+        })
+        .catch((err) => console.log(err));
+
+      console.log(response, "res");
       toast.success("Item added successfully", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
       });
-      setImage(res.image);
+      // setImage(res.image);
     } catch (err) {
-      toast.success("Item added successfully", {
+      toast.success("err", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
       });
@@ -84,7 +109,7 @@ const AdminProductUpdate = () => {
       formData.append("quantity", quantity);
       formData.append("brand", brand);
       formData.append("countInStock", stock);
-
+      console.log(image,"image");
       // Update product using the RTK Query mutation
       const data = await updateProduct({ productId: params._id, formData });
 

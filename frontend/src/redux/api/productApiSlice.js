@@ -7,6 +7,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: ({ keyword }) => ({
         url: `${PRODUCT_URL}`,
         params: { keyword },
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Products"],
@@ -26,6 +29,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `${PRODUCT_URL}/${productId}`,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
       keepUnusedDataFor: 5,
     }),
@@ -34,8 +40,12 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: (productData) => ({
         url: `${PRODUCT_URL}`,
         method: "POST",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: productData,
       }),
+      
       invalidatesTags: ["Product"],
     }),
 
@@ -43,6 +53,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: ({ productId, formData }) => ({
         url: `${PRODUCT_URL}/${productId}`,
         method: "PUT",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: formData,
       }),
     }),
@@ -51,6 +64,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `${UPLOAD_URL}`,
         method: "POST",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: data,
       }),
     }),
@@ -59,6 +75,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: (productId) => ({
         url: `${PRODUCT_URL}/${productId}`,
         method: "DELETE",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
       providesTags: ["Product"],
     }),
@@ -68,6 +87,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCT_URL}/${data.productId}/reviews`,
         method: "POST",
         body: data,
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
       }),
     }),
 
@@ -85,6 +107,9 @@ export const productApiSlice = apiSlice.injectEndpoints({
       query: ({ checked, radio }) => ({
         url: `${PRODUCT_URL}/filtered-products`,
         method: "POST",
+        headers: {
+          token : `${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
         body: { checked, radio },
       }),
     }),
